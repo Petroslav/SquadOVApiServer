@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: wow-kafka-workers-v3
+    labels:
+        task: wowkafka
+spec:
+    replicas: {{ .Values.replicas }}
+    selector:
+        matchLabels:
+            task: wowkafka
+    strategy:
+        type: Recreate
+    template:
+        metadata:
+            labels:
+                task: wowkafka
+        spec:
+            nodeSelector:
+                eks.amazonaws.com/compute-type: fargate
+            containers:
+                - name: wow-processor
+                  image: registry.gitlab.com/squadov/squadovapiserver/{{ .Values.environment }}/wow_kafka_worker:{{ .Values.commitHash }}
+                  env:
+                    - name: DB_CONNS
+                      value: "{{ .Values.threads }}"
+                    - name: KAFKA_THREADS
+                      value: "{{ .Values.threads }}"
+                    - name: "DISABLE_RABBITMQ"
+                      value: "1"
+                    - name: POSTGRES_USER
+                      valueFrom:
+                        secretKeyRef:
+                            name: postgres-secret
+                            key: username
+                    - name: POSTGRES_PASSWORD
+                      valueFrom:
+                        secretKeyRef:
+                            name: postgres-secret
+                            key: password
+                  resources:
+                    requests:
+                        cpu: "500m"
+                        memory: "1Gi"
+            imagePullSecrets:
+                - name: regcred

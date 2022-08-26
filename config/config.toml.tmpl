@@ -1,0 +1,229 @@
+[fusionauth]
+host = "http://internal-fusionauth-service"
+port = 9011
+api_key = "${FUSIONAUTH_API_KEY}"
+tenant_id = "${FUSIONAUTH_TENANT_ID}"
+application_id = "${FUSIONAUTH_CLIENT_ID}"
+
+[database]
+host = "${DATABASE_HOST}"
+username = "${POSTGRES_USER}"
+password = "${POSTGRES_PASSWORD}"
+connections = 256
+heavy_connections = 128
+
+[cors]
+domain = "https://app.${DEPLOYMENT_DOMAIN}"
+
+[gcp]
+enabled = true
+service_account_key = "gcp/squadov.json"
+
+[server]
+domain = "api.${DEPLOYMENT_DOMAIN}"
+graphql_debug = false
+workers = 8
+
+[gitlab]
+access_token = "${GITLAB_ACCESS_TOKEN}"
+project_id = ${GITLAB_PROJECT_ID}
+
+[kafka]
+bootstrap_servers = "${KAFKA_BROKERS}"
+wow_combat_log_threads = 0
+wow_combat_log_topic = "wow_combat_logs_v2"
+
+[kafka.client_keypair]
+key = "${KAFKA_CLIENT_KEY}"
+secret= "${KAFKA_CLIENT_SECRET}"
+
+[kafka.server_keypair]
+key = "${KAFKA_SERVER_KEY}"
+secret= "${KAFKA_SERVER_SECRET}"
+
+[vod]
+fastify_threads = 0
+
+[riot]
+rso_url = "https://auth.riotgames.com/authorize?client_id=${RSO_CLIENT_ID}&redirect_uri=https://app.squadov.gg/riot/oauth-callback&response_type=code&scope=openid+offline_access+cpid"
+rso_client_id = "${RSO_CLIENT_ID}"
+rso_client_secret = "${RSO_CLIENT_SECRET}"
+
+[riot.rso_api_key]
+key = "${RSO_API_KEY}"
+
+[riot.rso_api_key.burst_limit]
+requests = 10
+seconds = 10
+enabled = false
+
+[riot.rso_api_key.bulk_limit]
+requests = 500
+seconds = 600
+enabled = false
+
+[riot.valorant_api_key]
+key = "${VALORANT_API_KEY}"
+
+[riot.valorant_api_key.burst_limit]
+requests = 500
+seconds = 10
+enabled = true
+
+[riot.valorant_api_key.bulk_limit]
+requests = 30000
+seconds = 600
+enabled = true
+
+[riot.lol_api_key]
+key = "${LOL_API_KEY}"
+
+[riot.lol_api_key.burst_limit]
+requests = 500
+seconds = 10
+enabled = true
+
+[riot.lol_api_key.bulk_limit]
+requests = 30000
+seconds = 600
+enabled = true
+
+[riot.tft_api_key]
+key = "${TFT_API_KEY}"
+
+[riot.tft_api_key.burst_limit]
+requests = 500
+seconds = 10
+enabled = true
+
+[riot.tft_api_key.bulk_limit]
+requests = 30000
+seconds = 600
+enabled = true
+
+[twitch]
+base_url = "https://id.twitch.tv/oauth2/authorize?response_type=code&client_id=${TWITCH_CLIENT_ID}&redirect_uri=https://app.squadov.gg/twitch/oauth-callback&scope=channel:read:subscriptions+user:read:subscriptions+openid"
+client_id = "${TWITCH_CLIENT_ID}"
+client_secret = "${TWITCH_CLIENT_SECRET}"
+eventsub_hostname = "https://api.${DEPLOYMENT_DOMAIN}"
+
+[rabbitmq]
+amqp_url = "${RABBITMQ_AMQP_URL}"
+enable_rso = false
+prefetch_count = 2
+rso_queue = "riot_rso"
+enable_valorant = false
+valorant_queue = "valorant_api"
+valorant_workers = 4
+failover_valorant_queue = "failover_valorant_api"
+failover_valorant_workers = 2
+enable_lol = false
+lol_queue = "lol_api"
+lol_workers = 2
+enable_tft = false
+tft_queue = "tft_api"
+tft_workers = 4
+enable_vod = false
+vod_queue = "squadov_vods"
+enable_csgo = false
+csgo_queue = "csgo_rmq"
+enable_steam = false
+steam_queue = "steam_api"
+enable_twitch = false
+twitch_queue = "twitch_api"
+misc_valorant_queue = "misc_valorant"
+enable_sharing = true
+sharing_queue = "squadov_sharing"
+enable_elasticsearch = false
+elasticsearch_queue = "squadov_elasticsearch"
+elasticsearch_workers = 0
+discord_queue = "discord"
+
+[email]
+postmark_api_key = "${POSTMARK_API_KEY}"
+invite_template = "squad-invitation"
+welcome_template = "squad-welcome"
+
+[squadov]
+app_url = "https://app.${DEPLOYMENT_DOMAIN}"
+landing_url = "https://${DEPLOYMENT_DOMAIN}"
+invite_key = "${INVITE_HMAC_KEY}"
+share_key = "${SHARE_ENCRYPTION_KEY}"
+access_key = "${ACCESS_ENCRYPTION_KEY}"
+hashid_salt = "${HASHID_SALT}"
+
+[steam]
+api_key = "${STEAM_API_KEY}"
+requests = 100000
+seconds = 86400
+
+[storage.vods]
+global = "${DEFAULT_VOD_STORAGE_BUCKET}"
+legacy = "${LEGACY_VOD_STORAGE_BUCKET}"
+
+[storage.blobs]
+global = "${DEFAULT_BLOB_STORAGE_BUCKET}"
+legacy = "${LEGACY_BLOB_STORAGE_BUCKET}"
+
+[storage.speed_check]
+global = "${DEFAULT_SPEED_CHECK_BUCKET}"
+legacy = ""
+
+[aws]
+enabled = true
+credential_path = "aws/api.profile"
+profile = "api"
+region = "us-east-2"
+account_id = "${AWS_ACCOUNT_ID}"
+
+[aws.cdn]
+public_cdn_domain = "https://d1goqoukzs4rbo.cloudfront.net"
+private_cdn_domain = "https://d2chagikgdm7bl.cloudfront.net"
+blob_cdn_domain = "https://d395ja7261zvra.cloudfront.net"
+public_key_id = "K1JG8A4WKH1W0X"
+private_key_fname = "aws/private_s3_vod_cloudfront.pem"
+
+[aws.cognito]
+pool_id = "${COGNITO_POOL_ID}"
+provider = "${COGNITO_PROVIDER}"
+
+[ipstack]
+api_key = "${IPSTACK_API_KEY}"
+
+[segment]
+write_key = "${SEGMENT_WRITE_KEY}"
+
+[sentry]
+client_service_dsn = "${SENTRY_CLIENT_SERVICE_DSN}"
+web_dsn = "${SENTRY_WEB_DSN}"
+
+[discord]
+base_url = "https://discord.com/api/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=https%3A%2F%2Fapp.squadov.gg%2Fdiscord%2Foauth-callback&response_type=code&scope=identify"
+client_id = "${DISCORD_CLIENT_ID}"
+client_secret = "${DISCORD_CLIENT_SECRET}"
+
+[redis]
+url = "redis://${REDIS_URL}"
+pool_size = 128
+timeout_ms = 30000
+
+[zendesk]
+email = "mike@squadov.gg"
+api_key = "${ZENDESK_API_KEY}"
+
+[combatlog]
+hostname = "${COMBAT_LOG_HOSTNAME}"
+bucket = "${COMBAT_LOG_BUCKET}"
+
+[elasticsearch]
+host = "${ES_HOSTNAME}"
+username = "${ES_USERNAME}"
+password = "${ES_PASSWORD}"
+vod_index_read = "vod-index-read"
+vod_index_write = "vod-index-write"
+
+[stripe]
+publishable_api_key = "${STRIPE_PUBLIC_API_KEY}"
+secret_api_key = "${STRIPE_PRIVATE_API_KEY}"
+api_version = "2020-08-27"
+webhook_secret = "${STRIPE_WEBHOOK_SECRET}"

@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: landing
+    labels:
+        task: landing
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            task: landing
+    template:
+        metadata:
+            labels:
+                task: landing
+        spec:
+            nodeSelector:
+                task: static
+            containers:
+                - name: landing
+                  image: registry.gitlab.com/squadov/squadovapiserver/squadov/squadov_landing:{{ .Values.commitHash }}
+                  resources:
+                    requests:
+                        cpu: "100m"
+                    limits:
+                        cpu: "1000m"
+                - name: nginx
+                  image: registry.gitlab.com/squadov/squadovapiserver/squadov/landing_nginx:{{ .Values.nginxHash }}
+                  resources:
+                    requests:
+                        cpu: "10m"
+                    limits:
+                        cpu: "1000m"
+            imagePullSecrets:
+                - name: regcred

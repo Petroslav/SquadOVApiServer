@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: admin
+    labels:
+        task: admin
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            task: admin
+    template:
+        metadata:
+            labels:
+                task: admin
+        spec:
+            nodeSelector:
+                eks.amazonaws.com/compute-type: fargate
+            containers:
+                - name: admin
+                  image: registry.gitlab.com/squadov/squadovapiserver/{{ .Values.environment }}/squadov_admin:{{ .Values.commitHash }}
+                  ports:
+                    - containerPort: 3000
+                  livenessProbe:
+                    httpGet:
+                        path: /healthz
+                        port: 3000
+                    initialDelaySeconds: 10
+                    periodSeconds: 5
+                  readinessProbe:
+                    httpGet:
+                        path: /healthz
+                        port: 3000
+                  resources:
+                    requests:
+                        cpu: "250m"
+                        memory: "0.5Gi"
+            imagePullSecrets:
+                - name: regcred

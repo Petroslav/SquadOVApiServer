@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: rabbitmq-delay
+    labels:
+        task: rabbitmq-delay
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            task: rabbitmq-delay
+    template:
+        metadata:
+            labels:
+                task: rabbitmq-delay
+        spec:
+            nodeSelector:
+                eks.amazonaws.com/compute-type: fargate
+            containers:
+                - name: delay
+                  image: "registry.gitlab.com/squadov/squadovapiserver/{{ .Values.environment }}/rabbitmq_delay_handler:{{ .Values.commitHash }}"
+                  resources:
+                    requests:
+                        cpu: "250m"
+                        memory: "0.5Gi"
+            imagePullSecrets:
+                - name: regcred

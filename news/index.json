@@ -1,0 +1,86 @@
+[
+    {
+        "title": "SquadOV v0.11.0",
+        "description": "Big patch! Read more inside, but now you can have SquadOV only record certain programs!",
+        "timestamp": 1639783947000,
+        "data": "data/update-v0.11.0.md",
+        "type": "update"
+    },
+    {
+        "title": "SquadOV v0.10.8",
+        "description": "A lot more control for squad owners on what gets shared to squads!",
+        "timestamp": 1637442810000,
+        "data": "data/update-v0.10.8.md",
+        "type": "update"
+    },
+    {
+        "title": "SquadOV v0.10.7",
+        "description": "Finishing up WoW classic.",
+        "timestamp": 1636137276000,
+        "data": "data/update-v0.10.7.md",
+        "type": "update"
+    },
+    {
+        "title": "SquadOV v0.10.2",
+        "description": "QOL update and profile pages general release.",
+        "timestamp": 1634950899000,
+        "data": "data/update-v0.10.2.md",
+        "type": "update"
+    },
+    {
+        "title": "SquadOV v0.10.0",
+        "description": "WoW classic has arrived!",
+        "timestamp": 1632671580000,
+        "data": "data/update-v0.10.0.md",
+        "type": "update"
+    },
+    {
+        "title": "SquadOV v0.9.9",
+        "description": "User profiles are rolling out to a subset of users!",
+        "timestamp": 1630532116000,
+        "data": "data/update-v0.9.9.md",
+        "type": "update"
+    },
+    {
+        "title": "SquadOV v0.9.5",
+        "description": "Small patch but we're now properly trusted by Microsoft Smartscreen poggers.",
+        "timestamp": 1629496753000,
+        "data": "data/update-v0.9.5.md",
+        "type": "update"
+    },
+    {
+        "title": "SquadOV v0.9.1",
+        "description": "Some QOL changes for our post AWS migration patch!",
+        "timestamp": 1628564284000,
+        "data": "data/update-v0.9.1.md",
+        "type": "update"
+    },
+    {
+        "title": "SquadOV v0.8.10",
+        "description": "Overlays, overlays, overlays!",
+        "timestamp": 1625170295000,
+        "data": "data/update-v0.8.10.md",
+        "type": "update"
+    },
+    {
+        "title": "SquadOV v0.8.6",
+        "description": "Local recording management!",
+        "timestamp": 1623350534000,
+        "data": "data/update-v0.8.6.md",
+        "type": "update"
+    },
+    {
+        "title": "SquadOV v0.8.5",
+        "description": "Advanced sharing features.",
+        "timestamp": 1622825137000,
+        "data": "data/update-v0.8.5.md",
+        "type": "update"
+    },
+    {
+        "title": "SquadOV v0.8.4",
+        "description": "Match filters!",
+        "timestamp": 1622221696000,
+        "data": "data/update-v0.8.4.md",
+        "type": "update"
+    }
+]

@@ -1,0 +1,61 @@
+version: "3.8"
+services:
+    elasticsearch:
+        image: elasticsearch:8.1.2
+        volumes:
+          - esdata01:/usr/share/elasticsearch/data
+        environment:
+            - "discovery.type=single-node"
+        ports:
+            - "9200:9200"
+            - "9300:9300"
+        networks:
+            c3p0:
+                ipv4_address: "172.22.0.4"
+    postgres:
+        image: postgres:14.2
+        volumes:
+            - type: volume
+              source: db-data-14
+              target: /var/lib/postgresql/data
+        environment:
+            - "POSTGRES_USER=postgres"
+            - "POSTGRES_PASSWORD=password"
+            - "POSTGRES_DB=squadov"
+        ports:
+            - "5432:5432"
+        networks:
+            c3p0:
+                ipv4_address: "172.22.0.2"
+    fusionauth:
+        image: "fusionauth/fusionauth-app:1.36.4"
+        volumes:
+            - type: volume
+              source: fa-config
+              target: /usr/local/fusionauth/config
+        environment:
+            - "DATABASE_URL=jdbc:postgresql://${POSTGRES_HOST}/fusionauth?timezone=UTC"
+            - "DATABASE_ROOT_USER=${POSTGRES_USER}"
+            - "DATABASE_ROOT_PASSWORD=${POSTGRES_PASSWORD}"
+            - "DATABASE_USERNAME=${FUSIONAUTH_DB_USER}"
+            - "DATABASE_PASSWORD=${FUSIONAUTH_DB_PASSWORD}"
+            - "FUSIONAUTH_APP_MEMORY=1G"
+            - "FUSIONAUTH_SEARCH_ENGINE_TYPE=database"
+            - "FUSIONAUTH_APP_SILENT_MODE=true"
+            - "FUSIONAUTH_APP_RUNTIME_MODE=production"
+        ports:
+            - "9011:9011"
+        networks:
+            c3p0:
+                ipv4_address: "172.22.0.3"
+volumes:
+    db-data-14:
+    fa-config:
+    esdata01:
+
+networks:
+    c3p0:
+        ipam:
+            driver: default
+            config:
+                - subnet: "172.22.0.0/24"

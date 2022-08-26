@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: vod-processor
+    labels:
+        task: vod
+    namespace: vod
+spec:
+    replicas: {{ .Values.replicas }}
+    selector:
+        matchLabels:
+            task: vod
+    template:
+        metadata:
+            labels:
+                task: vod
+        spec:
+            affinity:
+                nodeAffinity:
+                    requiredDuringSchedulingIgnoredDuringExecution:
+                        nodeSelectorTerms:
+                            - matchExpressions:
+                                - key: task
+                                  operator: In
+                                  values:
+                                    - vod
+                    preferredDuringSchedulingIgnoredDuringExecution:
+                        - weight: 1
+                          preference:
+                            matchExpressions:
+                                - key: capacity
+                                  operator: In
+                                  values:
+                                    - demand
+            containers:
+                - name: processor
+                  image: "registry.gitlab.com/squadov/squadovapiserver/{{ .Values.environment }}/vod_processor:{{ .Values.commitHash }}"
+                  env:
+                    - name: DB_CONNS
+                      value: "2"
+                    - name: PROCESSING_THREADS
+                      value: "1"
+                    - name: "FFMPEG_BINARY_PATH"
+                      value: "ffmpeg"
+                    - name: POSTGRES_USER
+                      valueFrom:
+                        secretKeyRef:
+                            name: postgres-secret
+                            key: username
+                    - name: POSTGRES_PASSWORD
+                      valueFrom:
+                        secretKeyRef:
+                            name: postgres-secret
+                            key: password
+                  resources:
+                    requests:
+                        cpu: "490m"
+                        memory: "3Gi"
+                    limits:
+                        cpu: "1000m"
+            imagePullSecrets:
+                - name: regcred

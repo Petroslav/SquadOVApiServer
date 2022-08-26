@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: csgo-demo
+    labels:
+        task: csgo-demo
+spec:
+    replicas: 2
+    selector:
+        matchLabels:
+            task: csgo-demo
+    template:
+        metadata:
+            labels:
+                task: csgo-demo
+        spec:
+            nodeSelector:
+                eks.amazonaws.com/compute-type: fargate
+            containers:
+                - name: parser
+                  image: "registry.gitlab.com/squadov/squadovapiserver/{{ .Values.environment }}/csgo_demo_handler:{{ .Values.commitHash }}"
+                  resources:
+                    requests:
+                        cpu: "500m"
+                        memory: "1Gi"
+            imagePullSecrets:
+                - name: regcred
